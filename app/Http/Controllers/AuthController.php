@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -78,6 +79,30 @@ class AuthController extends Controller
                 'msg' => 'Incorrect login details', 
             ], 401);
         }
+    }
+
+    public function signup(Request $request)    
+    {
+        // validate request 
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'bail|required|email|unique:users',
+            'password' => 'bail|required|min:6',
+        ]);
+        $password = bcrypt($request->password);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $password,
+            'role_id' => 3
+        ]);
+        
+        return response()->json([
+            'redirect' => '/login', 
+            'msg' => 'Sign up success', 
+            'user' => $user,
+            'role' => 3
+        ]);
     }
     
 

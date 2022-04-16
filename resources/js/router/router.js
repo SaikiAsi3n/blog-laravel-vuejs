@@ -2,6 +2,7 @@ import Router from 'vue-router';
 import Vue from 'vue';
 import Home from '../pages/blog/Home.vue';
 import Login from '../pages/Login.vue';
+import Signup from '../pages/Signup.vue';
 import PostSingle from '../pages/blog/PostSingle.vue';
 import PostsByCategory from '../pages/blog/PostsByCategory.vue';
 import PostsByTag from '../pages/blog/PostsByTag.vue';
@@ -20,8 +21,7 @@ import NotFound from '../pages/NotFound.vue';
 
 Vue.use(Router);
 
-const routes = [
-    {
+const routes = [{
         path: '/',
         component: Home,
         name: 'Home'
@@ -56,23 +56,28 @@ const routes = [
         component: Login,
         name: 'Login'
     },
-    {   path: '/admin-redirect',
-        redirect: '/app' },
+    {
+        path: '/signup',
+        component: Signup,
+        name: 'Signup'
+    },
+    {
+        path: '/admin-redirect',
+        redirect: '/app'
+    },
     {
         path: '/app',
         component: AdminHome,
         name: 'AdminHome',
-        meta: { 
+        meta: {
             requiresAuth: true,
             permission: false
         },
-        children: [
-            // Nested Routes - This components will be displaed inside nested router-view in AdminHome component
-            {
+        children: [{
                 path: '/app/users',
                 component: AdminUsers,
                 name: 'Users',
-                meta: { 
+                meta: {
                     requiresAuth: true,
                     permission: false
                 },
@@ -81,7 +86,7 @@ const routes = [
                 path: '/app/roles',
                 component: Roles,
                 name: 'Roles',
-                meta: { 
+                meta: {
                     requiresAuth: true,
                     permission: false
                 },
@@ -90,7 +95,7 @@ const routes = [
                 path: '/app/permissions',
                 component: AssignPermissions,
                 name: 'Permissions',
-                meta: { 
+                meta: {
                     requiresAuth: true,
                     permission: false
                 },
@@ -99,7 +104,7 @@ const routes = [
                 path: '/app/posts',
                 component: Posts,
                 name: 'Posts',
-                meta: { 
+                meta: {
                     requiresAuth: true,
                     permission: false
                 },
@@ -108,7 +113,7 @@ const routes = [
                 path: '/app/createpost',
                 component: CreatePost,
                 name: 'CreatePost',
-                meta: { 
+                meta: {
                     requiresAuth: true,
                     permission: false
                 },
@@ -117,13 +122,13 @@ const routes = [
                 path: '/app/editpost/:id',
                 component: EditPost,
                 name: 'EditPost',
-                
+
             },
             {
                 path: '/app/categories',
                 component: Categories,
                 name: 'Categories',
-                meta: { 
+                meta: {
                     requiresAuth: true,
                     permission: false
                 },
@@ -132,7 +137,7 @@ const routes = [
                 path: '/app/tags',
                 component: Tags,
                 name: 'Tags',
-                meta: { 
+                meta: {
                     requiresAuth: true,
                     permission: false
                 },
@@ -141,7 +146,7 @@ const routes = [
                 path: '/app/notfound',
                 component: NotFound,
                 name: 'Notfound',
-                meta: { 
+                meta: {
                     requiresAuth: true,
                     permission: false
                 },
@@ -164,37 +169,34 @@ const router = new Router({
 import store from '../store/store';
 
 router.beforeEach((to, from, next) => {
-    // Get logged in user
+    // kiểm tra đăng nhập 
     const user = store.getters['getUser'];
 
-    //Admin Routes Guard- ( routes with meta.requiresAuth) redirect unautorized(!user or !user.role.isAdmin) users to Home route
-    if (to.matched.some(record => record.meta.requiresAuth)){      
-        // console.log('Path: ',to.path)
-        if(!user) return next({ name: 'Home' });
-        if (user.role.isAdmin){
-            if (!store.getters['getUserPermission']){
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (!user) return next({ name: 'Home' });
+        if (user.role.isAdmin) {
+            if (!store.getters['getUserPermission']) {
                 next({ name: 'Home' });
             }
-            // Permission settings below are optional and can be used if you don't use permission check methods from app.js (included in a mixin file)
-            // Exclude edit route (it doesn't have a permission obj. and can be accesed only from other protected rotes 
-            if (to.name == 'EditPost') return next() 
-            if(store.getters['getUserPermission']){
-                const permission = store.getters['getUserPermission'].filter(p => p.name == to.path)  ;            
-                to.meta.permission = permission[0]; // Set permission for the rout
+            // kiểm tra quyền để hiển thị routes 
+            if (to.name == 'EditPost') return next()
+            if (store.getters['getUserPermission']) {
+                const permission = store.getters['getUserPermission'].filter(p => p.name == to.path);
+                to.meta.permission = permission[0]; // kiểm tra quyền
                 permission[0].read ? next() : next({ name: 'Home' });
-            }           
+            }
             next();
-       }else {
-        next();
-        }             
-    } 
-    if (to.path == '/login'){
-        // Login Guard - if user is authenticated redirect to home route
-        (user) ? next({ name: 'Home' }) : next()          
+        } else {
+            next();
+        }
+    }
+    if (to.path == '/login') {
+        // nếu user -> / 
+        (user) ? next({ name: 'Home' }): next()
     } else {
         next();
     }
-    
+
 });
 
 export default router;

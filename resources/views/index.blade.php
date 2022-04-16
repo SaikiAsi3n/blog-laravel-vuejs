@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Icons -->
         <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/icons/tinasoft.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/icons/tinasoft.png">
         <link rel="manifest" href="/icons/site.webmanifest">
         <!-- Main css file  load secure asset -https if in production -->  
  	    @if(env('APP_ENV') == 'production')
@@ -14,7 +14,7 @@
         @else  
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         @endif  
-        <title>DevBlog</title>
+        <title>PTITNEWS</title>
         <script>
         // Generate crsf token (used in forms to prevent laravel 419 error)
            (function () {

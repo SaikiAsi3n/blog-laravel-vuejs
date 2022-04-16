@@ -17,14 +17,14 @@ class CategorySeeder extends Seeder
         $categories = [
             [
                 'id' => 1,
-                'categoryName' => 'PHP',
+                'categoryName' => 'congnghephanmem',
                 'iconImage' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/PHP-logo.svg/1920px-PHP-logo.svg.png',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'id' => 2,
-                'categoryName' => 'JavaScript',
+                'categoryName' => 'triethoc',
                 'iconImage' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/131px-Unofficial_JavaScript_logo_2.svg.png',
                 'created_at' => now(),
                 'updated_at' => now(),

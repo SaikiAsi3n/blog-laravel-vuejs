@@ -21,22 +21,22 @@
 					</tr>
 				</thead>
 				<tbody class="bg-gray-200">
-				<tr class="bg-white border-4 border-gray-200" v-for="(role, i) in getRoles" :key="i" v-if="getRoles.length">
-					<td class="px-2 break-all py-2 flex flex-row items-center hidden sm:block">
+				<tr  class="bg-white border-4 border-gray-200" v-for="(role, i) in getRoles" :key="i" >
+					<td v-if="getRoles.length" class="px-2 break-all py-2 flex flex-row items-center hidden sm:block">
 						<svg class="h-10 w-10 fill-current" viewBox="0 0 20 20">
 							<path d="M17.283,5.549h-5.26V4.335c0-0.222-0.183-0.404-0.404-0.404H8.381c-0.222,0-0.404,0.182-0.404,0.404v1.214h-5.26c-0.223,0-0.405,0.182-0.405,0.405v9.71c0,0.223,0.182,0.405,0.405,0.405h14.566c0.223,0,0.404-0.183,0.404-0.405v-9.71C17.688,5.731,17.506,5.549,17.283,5.549 M8.786,4.74h2.428v0.809H8.786V4.74z M16.879,15.26H3.122v-4.046h5.665v1.201c0,0.223,0.182,0.404,0.405,0.404h1.618c0.222,0,0.405-0.182,0.405-0.404v-1.201h5.665V15.26z M9.595,9.583h0.81v2.428h-0.81V9.583zM16.879,10.405h-5.665V9.19c0-0.222-0.183-0.405-0.405-0.405H9.191c-0.223,0-0.405,0.183-0.405,0.405v1.215H3.122V6.358h13.757V10.405z"></path>
 						</svg>
 					</td>
-					<td class="px-3 break-all py-2">
+					<td v-if="getRoles.length" class="px-3 break-all py-2">
 						<span>{{role.id}}</span>
 					</td>
-					<td class="px-3 break-all py-2">
+					<td v-if="getRoles.length" class="px-3 break-all py-2">
 						<span class="text-center font-semibold">{{role.roleName}}</span>
 					</td>
-					<td class="px-3 break-all py-2 hidden md:table-cell">
+					<td v-if="getRoles.length" class="px-3 break-all py-2 hidden md:table-cell">
 						<span>{{new Date(role.created_at).toLocaleDateString()}}</span>
 					</td>
-					<td class="px-2 break-all py-2 w-5">
+					<td v-if="getRoles.length" class="px-2 break-all py-2 w-5">
 						<Button class="w-full" size="small" @click="showEditModal(role, i)" v-if="isUpdatePermitted">
 							<Icon type="md-create" />&nbsp;&nbsp;Edit&nbsp;&nbsp;
 						</Button>					

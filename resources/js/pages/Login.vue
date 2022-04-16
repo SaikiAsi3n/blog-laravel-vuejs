@@ -6,7 +6,7 @@
     <div class="w-full max-w-lg">
       <div class="leading-loose">
         <form class="max-w-xl m-4 p-10 bg-white rounded shadow-xl">
-          <p class="font-semibold text-2xl text-blue-400 text-center pb-4">&lt;&nbsp;DevBlog&nbsp;&gt;</p>
+          <p class="font-semibold text-2xl text-red-400 text-center pb-4">&lt;&nbsp;PTITNEWs&nbsp;&gt;</p>
           <p class="text-gray-800 font-medium text-center text-lg font-bold">Login</p>
           <div class="mt-4">
             <Input type="email" v-model="data.email"  placeholder="Email"  />
@@ -17,7 +17,10 @@
           <div class="mt-4 items-center justify-between w-full">
             <Button class="w-full" type="primary" @click="login" :disabled="isLogging" :loading="isLogging">{{isLogging ? 'Loging...' : 'Login'}}</Button>
           </div>
-          <p class="font-semibold text-small gray-800 text-center pt-4">Test User: test@test.com Password: password</p>
+          <div class="text-gray-800 font-medium text-center text-lg font-bold">
+            <router-link class="text-gray-800 font-medium text-center text-lg font-bold" to="/signup">Sign up</router-link>
+          </div>
+          
         </form>
       </div>
     </div>

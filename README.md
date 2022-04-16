@@ -1,40 +1,36 @@
 # Laravel & Vue Blog
 
-Laravel and Vue blog with admin panel allowing to :
-- create, read, update and delete posts,
-- create, read, update and delete categories and tags,
-- manage user roles and permissions,
 
 
 ## Setup
 
-1. Install Composer Dependencies:
+1. Cài đặt composer:
 ```
 composer install
 ```
-2. Install NPM Dependencies:
+2. Cài đặt npm:
 ```
 npm install
 ```
-3. Create a copy of .env file (copy of env.example):
+3. Tạo file .env -> cài đặt biến môi trường
 ```
 cp .env.example .env
 ```
-4. Generate an app encryption key:
+4. Tạo khóa mã hóa ứng dụng
 ```
 php artisan key:generate
 ```
-5. Create a new database for the application.
+5. Tạo database cho app
 
-6. In the .env file, add database information to allow Laravel to connect to the database. 
-In .env file fill in the DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, and DB_PASSWORD options to match the credentials of the database you just created.
+6. Trong file .env, chú ý tới    DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, and DB_PASSWORD. 
+Nhập cho khớp với database trên local
 
-7. Migrate the database:
+7. Tạo các column trên database đã khai báo trong source
 ```
 php artisan migrate
 ```
 
-8. Seed the database:
+8. Tạo dữ liệu mẫu đã quy định trong source
 ```
 php artisan db:seed --class=DatabaseSeeder
 ```

@@ -24,7 +24,6 @@ class HomeController extends Controller
     }
         // chi tiết bài viết
     public function postSingle(Request $request, $slug){
-        // get post with related user,category and tag data
         $post = Post::where('slug', $slug)->with(['cat','tag' , 'user'])->first(['id', 'title', 'post', 'user_id', 'featuredImage','created_at']);
         
         $category_ids = [];
@@ -75,17 +74,17 @@ class HomeController extends Controller
         $posts->when($str!='', function($q) use($str){
             $q->where('title','LIKE',"%$str%")
             ->orWhereHas('cat', function($q) use($str){
-                // this will search 'cat' relation pivot table
+                // kiểm tra với cate
                 $q->where('categoryName','LIKE',"%$str%");
             })
             ->orWhereHas('tag', function($q) use($str){
-                // this will search 'tag' relation pivot table
+                // kiểm tra với tags
                 $q->where('tagName','LIKE',"%$str%");
             });
         });
- 
+
+            // phân trang
         $posts = $posts->paginate($request->total); 
-        // use appends to get correct url when using pagination with vue (otherwise query str= will get removed)
         $posts = $posts->appends($request->all()) ; 
    
         return response()->json(['posts' => $posts]);

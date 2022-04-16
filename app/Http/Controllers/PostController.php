@@ -34,12 +34,12 @@ class PostController extends Controller
         ]);
 
         $categories = $request->category_id;
+
         $tags = $request->tag_id;
 
         $postCategories = [];
         $postTags = [];
        
-        DB::beginTransaction();
         try {
             $post = Post::create([
                 'title' => $request->title,
@@ -52,25 +52,30 @@ class PostController extends Controller
                 'featuredImage' => $request->featuredImage ?? null
             ]);
 
-            // insert post tags 
-            foreach($tags as $t){
-                array_push($postTags, ['tag_id' => $t, 'post_id' => $post->id]);
-            }
-            PostTag::insert($postTags);    
-
-            // insert categories (must add created/updated_at manually)
+            // thêm thẻ
             foreach($categories as $c){
-                array_push($postCategories, ['category_id' => $c, 'post_id' => $post->id]);
+                DB::table('postcategories')->insert([
+                    'category_id' => $c,
+                    'post_id' => $post->id,
+                ]);
             }
+            foreach($tags as $t){
+                DB::table('posttags')->insert([
+                    'tag_id' => $t,
+                    'post_id' => $post->id,
+                ]);
+            }
+            
+           
+                  
+                
 
-            // Use insert insted of create when using transaction
-            PostCategory::insert($postCategories); 
+
+
             
  
-            DB::commit(); // Commit transaction
             return 'Post Created';
         } catch (\Throwable $th) {
-            DB::rollback(); // In case of errors rollback all changes
             return $th;
         }
     }
@@ -99,10 +104,9 @@ class PostController extends Controller
         
         $post = Post::where('id', $id)->first();
         if($post->featuredImage && $post->featuredImage != $request->featuredImage){
-            $this->deleteFileFromServer($post->featuredImage); // delete old imagefile from the server
+            $this->deleteFileFromServer($post->featuredImage); 
         }
 
-        DB::beginTransaction();
         try {
             Post::where('id', $id)->update([
                 'title' => $request->title,
@@ -115,11 +119,11 @@ class PostController extends Controller
             ]);
 
 
-            // insert categories
             foreach ($categories as $c) {
                 array_push($postCategories, ['category_id' => $c, 'post_id' => $id]);
             }
-            // delete all previous categories
+
+            // xóa và thêm
             PostCategory::where('post_id', $id)->delete();
             PostCategory::insert($postCategories);
             
@@ -129,10 +133,8 @@ class PostController extends Controller
             Posttag::where('post_id', $id)->delete();
             Posttag::insert($postTags);
 
-            DB::commit();
             return 'Post Updated';
         } catch (\Throwable $e) {
-            DB::rollback();
             return $e;
         }
     }
@@ -148,8 +150,6 @@ class PostController extends Controller
     }
 
 
-        
-    // Editor.js image upload
     public function uploadEditorImage(Request $request){
         
         $this->validate($request, [
@@ -158,7 +158,6 @@ class PostController extends Controller
         $picName = time().'.'.$request->image->extension();
         $request->image->move(public_path('uploads'),$picName );
 
-        // Editor js (Vue wrapper) json object ( allows to display image back in the Vue component)
         return response()->json([
             'success' => 1, 
             'file' => [
@@ -167,13 +166,5 @@ class PostController extends Controller
         ]);
         
 
-        /* TO DO - REMOVE UNUSED IMAGES
-        remove unused images that arent saved in the post :
-        1 make temp_image_table
-        2 whenever an image is uploaded add to temp_image_table id : 1, img: 34322.png
-        3 before creating resource check if you have any image for that resource in temp_image_table,
-        you can get this images and delete at the end 
-        4 upload image
-        */
     }
 }

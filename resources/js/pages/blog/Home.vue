@@ -13,9 +13,9 @@
     <!-- Main container -->
     <div class="container mx-auto flex flex-wrap py-6">
         <!-- Posts Section -->
-        <section class="w-full md:w-2/3 px-3">
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-				<post-card v-for="post in getPosts" :key="post.id" :postData="post" v-if="getPosts"></post-card>
+        <section class="w-full  px-3">
+			<div v-if="getPosts" class="grid grid-cols-1 md:grid-cols-3 gap-5">
+				<post-card v-for="post in getPosts" :key="post.id" :postData="post"></post-card>
 			</div>		
 
             <!-- Pagination -->

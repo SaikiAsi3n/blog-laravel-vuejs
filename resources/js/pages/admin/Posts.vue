@@ -23,19 +23,19 @@
 						<th class="px-2 py-2 w-5"><span class="text-gray-300">Actions</span></th>
 					</tr>
 				</thead>
-				<tbody class="bg-gray-200">
-					<tr class="bg-white border-4 border-gray-200"  v-for="(post, i) in getPosts" :key="i" v-if="getPosts">
+				<tbody v-if="getPosts" class="bg-gray-200">
+					<tr  class="bg-white border-4 border-gray-200"  v-for="(post, i) in getPosts" :key="i" >
 						<td class="px-3 break-all py-2 hidden md:table-cell">
 							<span>{{post.id}}</span>
 						</td>
 						<td class="px-3 break-all py-2">
 							<span class="text-center font-semibold">{{post.title}}</span>
 						</td>
-						<td class="px-3 break-all py-2">
-							<span v-for="(c, j) in post.cat" v-if="post.cat.length"><Tag type="border">{{c.categoryName}}</Tag></span>
+						<td v-if="post.cat.length" class="px-3 break-all py-2">
+							<span  v-for="(c, j) in post.cat" :key="j" ><Tag type="border">{{c.categoryName}}</Tag></span>
 						</td>
-						<td class="px-3 break-all py-2 hidden md:table-cell">
-							<span v-for="(t, j) in post.tag" v-if="post.tag.length"><Tag type="border">{{t.tagName}}</Tag></span>
+						<td v-if="post.tag.length" class="px-3 break-all py-2 hidden md:table-cell">
+							<span v-for="(t, j) in post.tag" :key="j" ><Tag type="border">{{t.tagName}}</Tag></span>
 						</td>
 						<td class="px-3 break-all py-2 hidden lg:table-cell">
 							<span>{{post.views}}</span>

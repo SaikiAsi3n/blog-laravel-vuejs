@@ -10,16 +10,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminCheck;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+
 
 // Home (blog)
 Route::get('/',[HomeController::class,'index']);
@@ -33,6 +24,7 @@ Route::get('/searchStr',[HomeController::class,'search']);
 
 // Auth
 Route::post('login', [AuthController::class,'login']);
+Route::post('signup', [AuthController::class,'signup']);
 Route::post('auth',[AuthController::class,'auth']);
 Route::post('logout', [AuthController::class,'logout']);
 
@@ -72,8 +64,8 @@ Route::prefix('/app')->middleware([AdminCheck::class])->group(function(){
     Route::post('delete_image', [Controller::class,'deleteImage']);
     Route::post('update_avatar', [UserController::class,'updateAvatar']);
 });
-// To upload imgs from Editor.js image add this route name in middleware/VerifyCsrfToken 
-// Name of the path must match the name of the route /app/createpost
+
+
 Route::post('/app/createpost', [PostController::class,'uploadEditorImage']);
 Route::post('/app/editpost/{slug}', [PostController::class,'uploadEditorImage']);
 
