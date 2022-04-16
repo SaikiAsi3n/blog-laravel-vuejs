@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
-  
+        // lấy ra bài viết
     public function index(Request $request)
     {   
         if ($request->total){
@@ -20,7 +20,7 @@ class PostController extends Controller
             return response()->json(Post::with(['tag', 'cat','user'])->orderBy('id', 'desc')->get());
         }   
     }
-
+        // tạo bài viết
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -38,11 +38,7 @@ class PostController extends Controller
 
         $postCategories = [];
         $postTags = [];
-        /* You may use the transaction method on the DB facade to run a set of operations 
-            within a database. If an exception is thrown within the transaction Closure,
-            the transaction will automatically be rolled back (no data gets inserted)
-            If you would like to begin a transaction manually and have complete control 
-            over rollbacks and commits, you may use the beginTransaction */
+       
         DB::beginTransaction();
         try {
             $post = Post::create([

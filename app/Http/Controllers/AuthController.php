@@ -11,19 +11,21 @@ class AuthController extends Controller
 
     public function index(Request $request)
     {
-        // first check if you are loggedin and admin user ... 
+        // kiểm tra đăng nhập
         if(!Auth::check() && $request->path() != '/login'){
-            return redirect('/login'); // not logged in and not on the login page (redirect to login)
+            return redirect('/login'); // chưa đăng nhập -> chuyển sang trang login
         }
         if(!Auth::check() && $request->path() == '/login' ){
-            return view('index'); // not logged in and already on main page (render main page)
+            return view('index'); //chưa đăng nhập -> chuyển sang trang chủ
         }
-        // you are already logged in... so check for if you are an admin user.. 
+        // đã đăng nhập -> xác thực thông tin người dùng
         $user = Auth::user();
         
+
+        // kiểm tra level của ueser
         if($user->role->isAdmin == 0){
             return redirect('/'); 
-            // return redirect('/login'); 
+            // chuyển về trang login
         }
         if($request->path() == 'login'){
             return redirect('/');
@@ -45,9 +47,9 @@ class AuthController extends Controller
         }
     }
 
-
+        // func đăng nhập
     public function login(Request $request){
-            
+                // điều kiện 
         $this->validate($request, [
             'email' => 'bail|required|email',
             'password' => 'bail|required|min:6',
@@ -55,7 +57,7 @@ class AuthController extends Controller
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
 
-            // Automatically logout if user role isn't admin type
+            // kiểm tra level user
             if($user->role->isAdmin == 0){
                 // Auth::logout();
                 return response()->json([

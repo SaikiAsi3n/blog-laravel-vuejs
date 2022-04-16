@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
 
-
+        // trả về thể loại
     public function index()
     {   
         return response()->json(Category::orderBy('id', 'desc')->get());
     }
     
-    
+        // thêm thể loại
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -27,7 +27,7 @@ class CategoryController extends Controller
         ]);
     }
     
-    
+        // cập nhật
     public function update(Request $request)
     {   
         $this->validate($request, [
@@ -40,12 +40,12 @@ class CategoryController extends Controller
         ]);
     }
 
-
+        // xóa
     public function destroy(Request $request)
     {
-        // First delete the original file from the server (deleteFileFromServer method is located in Contoller class)
+        // xóa ảnh
         $this->deleteFileFromServer($request->iconImage); 
-         
+         // xóa thông tin khác
         $this->validate($request, [
             'id' => 'required', 
         ]);

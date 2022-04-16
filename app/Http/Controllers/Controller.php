@@ -26,7 +26,7 @@ class Controller extends BaseController
     }
 
 
-    // Handle deletion of image from server for add/edit category
+    // xóa ảnh
     public function deleteImage(Request $request){
         $fileName = $request->imageName; 
         $this->deleteFileFromServer($fileName);

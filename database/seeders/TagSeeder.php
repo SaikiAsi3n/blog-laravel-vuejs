@@ -17,19 +17,19 @@ class TagSeeder extends Seeder
         $tags = [
           [
             'id' => 1,
-            'tagName' => 'Laravel',
+            'tagName' => 'vienthong',
             'created_at' => now(),
             'updated_at' => now(),
           ],  
           [
             'id' => 2,
-            'tagName' => 'Vue.js',
+            'tagName' => 'dientu',
             'created_at' => now(),
             'updated_at' => now(),
           ],  
           [
             'id' => 3,
-            'tagName' => 'API',
+            'tagName' => 'congnghethongtin',
             'created_at' => now(),
             'updated_at' => now(),
           ],
